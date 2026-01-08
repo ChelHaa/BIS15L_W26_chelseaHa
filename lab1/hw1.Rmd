@@ -23,5 +23,6 @@ https://github.com/ChelHaa/BIS15L_W26_chelseaHa
 
 **5. Make sure that your repository includes the practice file `dummy_push` from lab 1.2. If you have not done so already, please add your name to this file, knit it, and push it to your repository.**  
 
+
 ## Knit and Upload
 Please knit your work as an .html file and upload to Canvas. Homework is due before the start of the next lab. No late work is accepted. Make sure to use the formatting conventions of RMarkdown to make your report neat and clean!  
