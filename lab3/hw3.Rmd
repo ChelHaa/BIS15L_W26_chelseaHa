@@ -36,46 +36,49 @@ mean(mountains$mountain_height_feet_vector)
 
 **4. When were each of these mountains first climbed (i.e. in what year)? Make a new vector `first_climbed` and add it to the `mountains` data frame.**
 ```{r}
-first_climbed_vector <- c(1953,1954,1955,1956,1955)
-mountains <- tibble(mountain_vector, mountain_height_feet_vector, mountain_height_meters_vector,first_climbed_vector)
+first_climbed <- c(1953,1954,1955,1956,1955)
+mountains <- tibble(mountain_vector, mountain_height_feet_vector, mountain_height_meters_vector,first_climbed)
 ```
 
 **5. How many times have each of these mountains been climbed? Make a new vector `summits` and add it to the `mountains` data frame.**
 ```{r}
-summits <- c(12884,800,500,900,500)
+summits <- c(12884,800,300,400,500)
+```
+
+```{r}
+mountains <- tibble(mountain_vector, mountain_height_feet_vector, mountain_height_meters_vector,first_climbed,summits)
 ```
 
 **6. Which mountain has the highest number of fatalities? Make a new vector `fatalities` and add it to the `mountains` data frame.**
 ```{r}
-fatalities <- c(340,100,60,28,40)
+fatalities <- c(340,96,60,15,40)
 ```
 
+```{r}
+mountains <- tibble(mountain_vector, mountain_height_feet_vector, mountain_height_meters_vector,first_climbed,summits,fatalities)
+```
 **7. What is the fatality rate (i.e., fatalities divided by summits) for each mountain? Create a new vector `fatality_rate` and add it to the `mountains` data frame.**
 ```{r}
-fatality_rate_percentage <- c()
+fatality_rate <- c(2.6,12,20,3.7,8)
 ```
 
 ```{r}
-mountains <- tibble(mountain_vector, mountain_height_feet_vector, mountain_height_meters_vector,first_climbed_vector, summits, fatalities, fatality_rate_percentage)
+mountains <- tibble(mountain_vector, mountain_height_feet_vector, mountain_height_meters_vector,first_climbed, summits, fatalities, fatality_rate)
 ```
 
 **8. Write your data frame to a .csv file called `mountains_data`.**
 ```{r}
-#write.csv(mountains, "mountains_data.csv", row.names=FALSE)
+write.csv(mountains, "mountains_data.csv", row.names=FALSE)
 ```
 
 **9. Clear your environment panel by clicking on the broom icon. Then read in your `mountains_data.csv` file to a new object called `mountains`.**
 ```{r}
-
-```
-
-```{r}
-
+mountains <- read_csv("mountains_data.csv")
 ```
 
 **10. Use a summary function of your choice to show the structure of your `mountains` data frame.**
 ```{r}
-
+summary(mountains)
 ```
 
 ## Knit and Upload
