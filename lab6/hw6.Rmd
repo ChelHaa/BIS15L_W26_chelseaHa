@@ -55,11 +55,10 @@ gabon %>%
   # ggplot(mapping=aes(y=land_use,x=transect_id))+
   # geom_col(mapping=aes(fill=land_use),position="dodge")+
   # labs(title="# Transects by Land Use Type")
-  count(land_use) %>%
-  ggplot(aes(x = land_use, y = n, fill = land_use)) +
+  count(land_use, name="transect_count") %>%
+  ggplot(mapping=aes(x = land_use, y=transect_count, fill = land_use)) +
   geom_col() +
-  labs(title = "# Transects by Land Use Type")
-
+  labs(title = "# Transects by Land Use Type", y="# of Transects", x="Land Use Type")
 ```
 
 **6. How does vegetation richness compare among land use types?**
@@ -68,7 +67,7 @@ gabon %>%
   select(veg_rich,land_use) %>% 
   ggplot(mapping=aes(x=land_use,y=veg_rich))+
   geom_col(mapping=aes(fill=land_use))+
-  labs(title="Vegetation Richness by Land Use Type")
+  labs(title="Vegetation Richness by Land Use Type", x="Land Use Type", y="vegetation richness")
 ```
 
 **7. For which land use type (national parks, logging, or neither) is average all species diversity the greatest?**
