@@ -6,6 +6,9 @@ output:
   html_document: 
     theme: spacelab
 ---
+```{r}
+getwd()
+```
 
 ## Instructions
 Answer the following questions and/or complete the exercises in RMarkdown. Please embed all of your code and push the final work to your repository. Your report should be organized, clean, and run free from errors. Remember, you must remove the `#` for any included code chunks to run.  
@@ -42,60 +45,73 @@ gabon <- gabon %>%
 
 **4. Use `mutate()` Change the variables `HuntCat`, `LandUse`, and `TransectID` to factors. Be sure to store the output as a new dataframe and use it for the remaining questions.**
 ```{r}
-gabon %>% 
-  mutate(as.factor(hunt_cat))
+gabon <- gabon %>% 
+  mutate(across(c(hunt_cat,land_use, transect_id),as.factor))
 ```
 
 **5. Make a plot that shows the number of transects for each land use type.**
 ```{r}
 gabon %>% 
-  ggplot(mapping=aes(x=land_use,y=transect_id))+
-  geom_col()
-```
-
-```{r}
+  # ggplot(mapping=aes(y=land_use,x=transect_id))+
+  # geom_col(mapping=aes(fill=land_use),position="dodge")+
+  # labs(title="# Transects by Land Use Type")
+  count(land_use) %>%
+  ggplot(aes(x = land_use, y = n, fill = land_use)) +
+  geom_col() +
+  labs(title = "# Transects by Land Use Type")
 
 ```
 
 **6. How does vegetation richness compare among land use types?**
 ```{r}
-
+gabon %>% 
+  select(veg_rich,land_use) %>% 
+  ggplot(mapping=aes(x=land_use,y=veg_rich))+
+  geom_col(mapping=aes(fill=land_use))+
+  labs(title="Vegetation Richness by Land Use Type")
 ```
 
 **7. For which land use type (national parks, logging, or neither) is average all species diversity the greatest?**
 ```{r}
-
+names(gabon)
 ```
 
 ```{r}
-
+gabon %>% 
+  select(land_use,diversity_all_species) %>% 
+  ggplot(mapping=aes(x=land_use,y=diversity_all_species))+
+  geom_boxplot(mapping=aes(fill=land_use))+
+  labs(title="Diversity of all Species by Land Use Type")
 ```
-
-```{r}
-
-```
-
-```{r}
-
-```
+The average for all species diversity is the greatest in Parks. 
 
 **8. Is there a relationship between vegetation richness and mammal species richness?**
 ```{r}
-
+gabon %>% 
+  select(veg_rich,rich_mammal_species) %>% 
+  ggplot(mapping=aes(x=veg_rich,y=rich_mammal_species))+
+  geom_smooth(method = lm, se=T)+
+  geom_point()+
+  labs(title="Vegetation Richness vs. Mammal Species Richness")
 ```
+There is a positive relationship between vegetation richness and mammal species richness. 
 
 **9. Use `filter` to find all transects that have greater than 15 tree species or a breast height diameter between 50 and 60cm.  **
 ```{r}
-
+# veg_rich is the number of tree species
+# DBH = diameter at Breast Height (use veg_dbh)
+gabon %>% 
+  select(transect_id,veg_rich,veg_dbh) %>% 
+  filter(veg_rich > 15| between(veg_dbh,50,60))
 ```
 
-```{r}
-
-```
 
 **10.Which transects and land use types have more than 10 tree species and 10 mammal species? Use `arrange()` to sort by the number of tree species.**
 ```{r}
-
+gabon %>% 
+  select(transect_id, land_use,veg_rich,rich_mammal_species) %>% 
+  filter(veg_rich > 15 & rich_mammal_species>10) %>% 
+  arrange(veg_rich)
 ```
 
 ## Knit and Upload
