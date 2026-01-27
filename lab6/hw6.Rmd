@@ -2,7 +2,7 @@
 title: "Homework 6"
 author: "Chelsea Ha"
 date: "`r Sys.Date()`"
-output:
+output: 
   html_document: 
     theme: spacelab
 ---
