@@ -176,7 +176,7 @@ summary(mammals)
 
 ```{r}
 mammals %>% 
-  select(Genus, species, newborn) %>% 
+  select(genus, species, newborn) %>% 
   arrange(newborn)
 ```
 
@@ -185,6 +185,7 @@ mammals %>%
   select(Genus, species, newborn) %>% 
   mutate(newborn_new=ifelse(newborn == -999.00, NA, newborn))
 ```
+
 ```{r}
 names(mammals)
 ```

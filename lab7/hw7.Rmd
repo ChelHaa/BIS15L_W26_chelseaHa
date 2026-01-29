@@ -126,18 +126,32 @@ ggplot(data=elephants,
 ggplot(data=elephants,
        mapping=aes(x=shoulder_height_in_cm,y=tusk_length_in_cm))+
       geom_point() +
-      geom_smooth(method=lm)
+      geom_smooth(method=lm)+
+      labs(title="Shoulder Height vs. Tusk Length")
 ```
 
 **11. The authors argue that because poachers preferentially target elephants with large tusks, this has resulted in a decrease in average tusk length. Is this supported by the data? Show your code and calculations below.**  
 
 ```{r}
-
+ggplot(data=elephants,
+       mapping=aes(x=years_of_sample_collection,y=tusk_length_in_cm))+
+      geom_boxplot(mapping=aes(fill=sex))+
+      labs(title="Tusk Length In 1966-68 and 2005-13")
 ```
 
 **12. Male elephants reach effective sexual maturity at 25 years while females are sexually mature at 12 years. Make a new dataframe that extracts only the males and females at sexual maturity. Then, make a plot that shows the range of tusk length between the two sample periods for these mature elephants.**   
 ```{r}
+elephants_mature <- elephants %>% 
+  filter((sex=="f" & estimated_age_years>12)|(sex=="m" & estimated_age_years>25))
+elephants_mature
+```
 
+
+```{r}
+ggplot(data=elephants_mature,
+       mapping=aes(x=years_of_sample_collection,y=tusk_length_in_cm))+
+      geom_boxplot(mapping=aes(fill=sex))+
+      labs(title="Tusk Length Overtime for Mature Elephants")
 ```
 
 ## Submit the Homework
