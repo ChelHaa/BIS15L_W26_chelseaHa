@@ -59,6 +59,7 @@ fisheries_clean <- fisheries_clean %>%
 fisheries_clean %>% 
   distinct(country)
 ```
+249 countries.
 
 5. The variables `common_name` and `taxonomic_code` both refer to species. How many unique species are represented in the data based on each of these variables? Are the numbers the same or different?
 ```{r}
@@ -73,15 +74,7 @@ fisheries_clean %>%
   filter(period=="2023") %>% 
   group_by(country) %>% 
   summarize(sum_catch=sum(catch)) %>% 
-  arrange(desc(sum_catch)) 
-```
-
-Another way to do it: 
-```{r}
-fisheries_clean %>% 
-  filter(period=="2023") %>% 
-  group_by(country) %>% 
-  summarize(sum_catch=sum(catch)) %>% 
+  arrange(desc(sum_catch)) %>% 
   slice_max(sum_catch, n=5)
 ```
 
@@ -90,40 +83,61 @@ fisheries_clean %>%
 fisheries_clean %>% 
   filter(period=="2023") %>% 
   group_by(common_name) %>% 
-  summarize(sum_catch=sum(catch)) %>% 
-  arrange(desc(sum_catch))
+  summarize(sum_catch=sum(catch)) %>%  
+  arrange(desc(sum_catch))  
 ```
-NEI stands for Not elsewhere included meaning some of the fishes that are labled NEI are not recording what species or what categories the type of catch belongs in. 
+NEI stands for Not elsewhere included meaning some of the fishes that are labled NEI are not recording what species or what categories the type of catch belongs in. If fisheries record fish that are not categorized it would be difficult to look at data overtime and effects on fishing in certain areas. 
 
+```{r}
+# fisheries_clean %>% 
+#   select(period, catch, country, common_name) %>% 
+#   filter(period=="2023") %>% 
+#   group_by(country, common_name) %>% #sums up the total catches of each species for each country
+#   summarize(sum_catch=sum(catch)) %>% 
+#   arrange(desc(sum_catch))
+```
 
 8. For the species that was caught the most above (not NEI), which country had the highest catch in 2023?
 ```{r}
 fisheries_clean %>% 
   filter(common_name=="Alaska pollock(=Walleye poll.)") %>% 
   filter(period=="2023") %>% 
-  group_by(country,common_name,period) %>% 
+  group_by(country,common_name) %>% 
   summarize(sum_catch=sum(catch)) %>% 
   arrange(desc(sum_catch))
 ```
-In 2023, the Russian Federation had the highest catch of Alaska pollock(=Walleye poll.).
+In 2023, the Russian Federation had the highest catch of Alaska Pollock(=Walleye poll.).
 
 9. How has fishing of this species changed over the last decade (2013-2023)? Create a  plot showing total catch by year for this species.
 ```{r}
 fisheries_clean %>% 
   filter(common_name=="Alaska pollock(=Walleye poll.)") %>% 
+  # filter(period=="2013" | period=="2014" | period=="2015"| period=="2016"| period=="2017"| period=="2018"| period=="2019"| period=="2020"| period=="2021"| period=="2022"| period=="2023") %>% 
+  filter(period %in% c(2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023)) %>% 
   ggplot(aes(x=period, y=catch))+
   geom_col(mapping=aes(fill=period))+
-  labs(title="# of Catches of Alaska pollock(=Walleye poll.) from 2013-2023")
+  labs(title="Fishing of Alaska pollock(=Walleye poll.) from 2013-2023")
 ```
 
 10. Perform one exploratory analysis of your choice. Make sure to clearly state the question you are asking before writing any code.
 ```{r}
-#What is the least caught species in 2023 and make a plot of how fishing of this species has changed over 2013-2023. 
+#Which continent caught the most fish in 2023 and make a plot of how fishing has changed over the past decade for that continent. 
 fisheries_clean %>% 
   filter(period=="2023") %>% 
-  group_by(common_name) %>% 
+  group_by(continent) %>% 
   summarize(sum_catch=sum(catch)) %>% 
-  arrange()
+  arrange(desc(sum_catch))
+```
+
+```{r}
+fisheries_clean %>% 
+  filter((period %in% c(2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023)), 
+         (continent=="Asia")) %>% 
+  group_by(period) %>% 
+  summarize(sum_catch=sum(catch)) %>% 
+  ggplot(aes(x=period, y=sum_catch))+
+  geom_col(mapping=aes(fill=period))+
+  labs(title="Fishing in Asia From 2013-2023")
 ```
 
 ## Knit and Upload

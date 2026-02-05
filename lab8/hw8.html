@@ -9,9 +9,9 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Your Name Here" />
+<meta name="author" content="Chelsea Ha" />
 
-<meta name="date" content="2026-02-01" />
+<meta name="date" content="2026-02-05" />
 
 <title>Homework 8</title>
 
@@ -375,8 +375,8 @@ display: none;
 
 
 <h1 class="title toc-ignore">Homework 8</h1>
-<h4 class="author">Your Name Here</h4>
-<h4 class="date">2026-02-01</h4>
+<h4 class="author">Chelsea Ha</h4>
+<h4 class="date">2026-02-05</h4>
 
 </div>
 
@@ -393,7 +393,7 @@ code chunks to run.</p>
 <h2>Load the libraries</h2>
 <pre class="r"><code>library(&quot;tidyverse&quot;)
 library(&quot;janitor&quot;)
-library(&quot;naniar&quot;)
+#library(&quot;naniar&quot;)
 options(scipen = 999)</code></pre>
 </div>
 <div id="about-the-data" class="section level2">
@@ -406,37 +406,190 @@ script.</p>
 <code>fisheries_clean</code>.</p>
 <pre class="r"><code>fisheries_clean &lt;- read_csv(&quot;data/fisheries_clean.csv&quot;)</code></pre>
 <ol style="list-style-type: decimal">
-<li><p>Explore the data. What are the names of the variables, what are
-the dimensions, are there any NA’s, what are the classes of the
-variables, etc.? You may use the functions that you prefer.</p></li>
-<li><p>Convert the following variables to factors: <code>period</code>,
+<li>Explore the data. What are the names of the variables, what are the
+dimensions, are there any NA’s, what are the classes of the variables,
+etc.? You may use the functions that you prefer.</li>
+</ol>
+<pre class="r"><code>names(fisheries_clean)</code></pre>
+<pre><code>## [1] &quot;period&quot;          &quot;continent&quot;       &quot;geo_region&quot;      &quot;country&quot;        
+## [5] &quot;scientific_name&quot; &quot;common_name&quot;     &quot;taxonomic_code&quot;  &quot;catch&quot;          
+## [9] &quot;status&quot;</code></pre>
+<pre class="r"><code>dim(fisheries_clean)</code></pre>
+<pre><code>## [1] 1055015       9</code></pre>
+<pre class="r"><code>glimpse(fisheries_clean) #finding the classes of the variables</code></pre>
+<pre><code>## Rows: 1,055,015
+## Columns: 9
+## $ period          &lt;dbl&gt; 1950, 1951, 1952, 1953, 1954, 1955, 1956, 1957, 1958, …
+## $ continent       &lt;chr&gt; &quot;Asia&quot;, &quot;Asia&quot;, &quot;Asia&quot;, &quot;Asia&quot;, &quot;Asia&quot;, &quot;Asia&quot;, &quot;Asia&quot;…
+## $ geo_region      &lt;chr&gt; &quot;Southern Asia&quot;, &quot;Southern Asia&quot;, &quot;Southern Asia&quot;, &quot;So…
+## $ country         &lt;chr&gt; &quot;Afghanistan&quot;, &quot;Afghanistan&quot;, &quot;Afghanistan&quot;, &quot;Afghanis…
+## $ scientific_name &lt;chr&gt; &quot;Osteichthyes&quot;, &quot;Osteichthyes&quot;, &quot;Osteichthyes&quot;, &quot;Ostei…
+## $ common_name     &lt;chr&gt; &quot;Freshwater fishes NEI&quot;, &quot;Freshwater fishes NEI&quot;, &quot;Fre…
+## $ taxonomic_code  &lt;chr&gt; &quot;1990XXXXXXXX106&quot;, &quot;1990XXXXXXXX106&quot;, &quot;1990XXXXXXXX106…
+## $ catch           &lt;dbl&gt; 100, 100, 100, 100, 100, 200, 200, 200, 200, 200, 200,…
+## $ status          &lt;chr&gt; &quot;A&quot;, &quot;A&quot;, &quot;A&quot;, &quot;A&quot;, &quot;A&quot;, &quot;A&quot;, &quot;A&quot;, &quot;A&quot;, &quot;A&quot;, &quot;A&quot;, &quot;A&quot;,…</code></pre>
+<pre class="r"><code>#how to find if there are NAs?</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li>Convert the following variables to factors: <code>period</code>,
 <code>continent</code>, <code>geo_region</code>, <code>country</code>,
 <code>scientific_name</code>, <code>common_name</code>,
-<code>taxonomic_code</code>, and <code>status</code>.</p></li>
-<li><p>Are there any missing values in the data? If so, which variables
-contain missing values and how many are missing for each
-variable?</p></li>
-<li><p>How many countries are represented in the data?</p></li>
-<li><p>The variables <code>common_name</code> and
+<code>taxonomic_code</code>, and <code>status</code>.</li>
+</ol>
+<pre class="r"><code>fisheries_clean &lt;- fisheries_clean %&gt;% 
+  mutate(across(c(period, continent,geo_region,country,scientific_name,common_name,taxonomic_code,status),as.factor))</code></pre>
+<p>##3. Are there any missing values in the data? If so, which variables
+contain missing values and how many are missing for each variable?</p>
+<pre class="r"><code>#skip this question</code></pre>
+<ol start="4" style="list-style-type: decimal">
+<li>How many countries are represented in the data?</li>
+</ol>
+<pre class="r"><code>fisheries_clean %&gt;% 
+  distinct(country)</code></pre>
+<pre><code>## # A tibble: 249 × 1
+##    country            
+##    &lt;fct&gt;              
+##  1 Afghanistan        
+##  2 Albania            
+##  3 Algeria            
+##  4 American Samoa     
+##  5 Andorra            
+##  6 Angola             
+##  7 Anguilla           
+##  8 Antigua and Barbuda
+##  9 Argentina          
+## 10 Armenia            
+## # ℹ 239 more rows</code></pre>
+<p>249 countries.</p>
+<ol start="5" style="list-style-type: decimal">
+<li>The variables <code>common_name</code> and
 <code>taxonomic_code</code> both refer to species. How many unique
 species are represented in the data based on each of these variables?
-Are the numbers the same or different?</p></li>
-<li><p>In 2023, what were the top five countries that had the highest
-overall catch?</p></li>
-<li><p>In 2023, what were the top 10 most caught species? To keep things
+Are the numbers the same or different?</li>
+</ol>
+<pre class="r"><code>fisheries_clean %&gt;% 
+  select(common_name, taxonomic_code) %&gt;% 
+  n_distinct()</code></pre>
+<pre><code>## [1] 3722</code></pre>
+<ol start="6" style="list-style-type: decimal">
+<li>In 2023, what were the top five countries that had the highest
+overall catch?</li>
+</ol>
+<pre class="r"><code>fisheries_clean %&gt;% 
+  filter(period==&quot;2023&quot;) %&gt;% 
+  group_by(country) %&gt;% 
+  summarize(sum_catch=sum(catch)) %&gt;% 
+  arrange(desc(sum_catch)) %&gt;% 
+  slice_max(sum_catch, n=5)</code></pre>
+<pre><code>## # A tibble: 5 × 2
+##   country                  sum_catch
+##   &lt;fct&gt;                        &lt;dbl&gt;
+## 1 China                    13424705.
+## 2 Indonesia                 7820833.
+## 3 India                     6177985.
+## 4 Russian Federation        5398032 
+## 5 United States of America  4623694</code></pre>
+<ol start="7" style="list-style-type: decimal">
+<li>In 2023, what were the top 10 most caught species? To keep things
 simple, assume <code>common_name</code> is sufficient to identify
 species. What does <code>NEI</code> stand for in some of the common
 names? How might this be concerning from a fisheries management
-perspective?</p></li>
-<li><p>For the species that was caught the most above (not NEI), which
-country had the highest catch in 2023?</p></li>
-<li><p>How has fishing of this species changed over the last decade
-(2013-2023)? Create a plot showing total catch by year for this
-species.</p></li>
-<li><p>Perform one exploratory analysis of your choice. Make sure to
-clearly state the question you are asking before writing any
-code.</p></li>
+perspective?</li>
 </ol>
+<pre class="r"><code>fisheries_clean %&gt;% 
+  filter(period==&quot;2023&quot;) %&gt;% 
+  group_by(common_name) %&gt;% 
+  summarize(sum_catch=sum(catch)) %&gt;%  
+  arrange(desc(sum_catch))  </code></pre>
+<pre><code>## # A tibble: 2,870 × 2
+##    common_name                    sum_catch
+##    &lt;fct&gt;                              &lt;dbl&gt;
+##  1 Marine fishes NEI               8553907.
+##  2 Freshwater fishes NEI           5880104.
+##  3 Alaska pollock(=Walleye poll.)  3543411.
+##  4 Skipjack tuna                   2954736.
+##  5 Anchoveta(=Peruvian anchovy)    2415709.
+##  6 Blue whiting(=Poutassou)        1739484.
+##  7 Pacific sardine                 1678237.
+##  8 Yellowfin tuna                  1601369.
+##  9 Atlantic herring                1432807.
+## 10 Scads NEI                       1344190.
+## # ℹ 2,860 more rows</code></pre>
+<p>NEI stands for Not elsewhere included meaning some of the fishes that
+are labled NEI are not recording what species or what categories the
+type of catch belongs in. If fisheries record fish that are not
+categorized it would be difficult to look at data overtime and effects
+on fishing in certain areas.</p>
+<pre class="r"><code># fisheries_clean %&gt;% 
+#   select(period, catch, country, common_name) %&gt;% 
+#   filter(period==&quot;2023&quot;) %&gt;% 
+#   group_by(country, common_name) %&gt;% #sums up the total catches of each species for each country
+#   summarize(sum_catch=sum(catch)) %&gt;% 
+#   arrange(desc(sum_catch))</code></pre>
+<ol start="8" style="list-style-type: decimal">
+<li>For the species that was caught the most above (not NEI), which
+country had the highest catch in 2023?</li>
+</ol>
+<pre class="r"><code>fisheries_clean %&gt;% 
+  filter(common_name==&quot;Alaska pollock(=Walleye poll.)&quot;) %&gt;% 
+  filter(period==&quot;2023&quot;) %&gt;% 
+  group_by(country,common_name) %&gt;% 
+  summarize(sum_catch=sum(catch)) %&gt;% 
+  arrange(desc(sum_catch))</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;country&#39;. You can override using the
+## `.groups` argument.</code></pre>
+<pre><code>## # A tibble: 6 × 3
+## # Groups:   country [6]
+##   country                               common_name                    sum_catch
+##   &lt;fct&gt;                                 &lt;fct&gt;                              &lt;dbl&gt;
+## 1 Russian Federation                    Alaska pollock(=Walleye poll.)  1893924 
+## 2 United States of America              Alaska pollock(=Walleye poll.)  1433538 
+## 3 Japan                                 Alaska pollock(=Walleye poll.)   122900 
+## 4 Democratic People&#39;s Republic of Korea Alaska pollock(=Walleye poll.)    58730 
+## 5 Republic of Korea                     Alaska pollock(=Walleye poll.)    28432.
+## 6 Canada                                Alaska pollock(=Walleye poll.)     5887.</code></pre>
+<p>In 2023, the Russian Federation had the highest catch of Alaska
+Pollock(=Walleye poll.).</p>
+<ol start="9" style="list-style-type: decimal">
+<li>How has fishing of this species changed over the last decade
+(2013-2023)? Create a plot showing total catch by year for this
+species.</li>
+</ol>
+<pre class="r"><code>fisheries_clean %&gt;% 
+  filter(common_name==&quot;Alaska pollock(=Walleye poll.)&quot;) %&gt;% 
+  # filter(period==&quot;2013&quot; | period==&quot;2014&quot; | period==&quot;2015&quot;| period==&quot;2016&quot;| period==&quot;2017&quot;| period==&quot;2018&quot;| period==&quot;2019&quot;| period==&quot;2020&quot;| period==&quot;2021&quot;| period==&quot;2022&quot;| period==&quot;2023&quot;) %&gt;% 
+  filter(period %in% c(2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023)) %&gt;% 
+  ggplot(aes(x=period, y=catch))+
+  geom_col(mapping=aes(fill=period))+
+  labs(title=&quot;Fishing of Alaska pollock(=Walleye poll.) from 2013-2023&quot;)</code></pre>
+<p><img role="img" src="data:image/png;base64,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" /><!-- --></p>
+<ol start="10" style="list-style-type: decimal">
+<li>Perform one exploratory analysis of your choice. Make sure to
+clearly state the question you are asking before writing any code.</li>
+</ol>
+<pre class="r"><code>#Which continent caught the most fish in 2023 and make a plot of how fishing has changed over the past decade for that continent. 
+fisheries_clean %&gt;% 
+  filter(period==&quot;2023&quot;) %&gt;% 
+  group_by(continent) %&gt;% 
+  summarize(sum_catch=sum(catch)) %&gt;% 
+  arrange(desc(sum_catch))</code></pre>
+<pre><code>## # A tibble: 6 × 2
+##   continent sum_catch
+##   &lt;fct&gt;         &lt;dbl&gt;
+## 1 Asia      48578981.
+## 2 Americas  17375444.
+## 3 Europe    14430135.
+## 4 Africa    10711862.
+## 5 Oceania    1581909.
+## 6 &lt;NA&gt;         46166.</code></pre>
+<pre class="r"><code>fisheries_clean %&gt;% 
+  filter((period %in% c(2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023)), 
+         (continent==&quot;Asia&quot;)) %&gt;% 
+  group_by(period) %&gt;% 
+  summarize(sum_catch=sum(catch)) %&gt;% 
+  ggplot(aes(x=period, y=sum_catch))+
+  geom_col(mapping=aes(fill=period))+
+  labs(title=&quot;Fishing in Asia From 2013-2023&quot;)</code></pre>
+<p><img role="img" src="data:image/png;base64,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" /><!-- --></p>
 </div>
 <div id="knit-and-upload" class="section level2">
 <h2>Knit and Upload</h2>
