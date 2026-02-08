@@ -76,6 +76,7 @@ heartrate_long <- heartrate %>%
   pivot_longer(-patient,
                names_to= "drug",
                values_to= "heartrate")
+heartrate_long
 ```
 
 ```{r}
@@ -93,7 +94,7 @@ relig_income
 ```
 
 2. Why are these data untidy?  
-variable names are data. 
+variable names are data (the income)
 
 3. Use `pivot_longer()` to make the data tidy.  
 ```{r}
@@ -111,7 +112,7 @@ Some (but not all) of the column names are data. We also have NA's.
 billboard <- read_csv("data/billboard.csv")
 billboard
 ```
-Week is a variable, songs fall off the charts so they are NA. 
+Week is a variable, songs fall off the charts so they are NA, we want each song to have all weeks displayed in one row (one observation for each week in one row). 
 
 Solution 1: specify a range of columns that you want to pivot.
 ```{r}
@@ -151,6 +152,7 @@ plant_data
 ```
 
 2. Why are these data not tidy?  
+  We want each day's observations to be in its own row. (make the entire data frame longer)
 
 3. Use `pivot_longer()` to make the data tidy. Focus the data only on genotype, water_sched_prog, and greenhouse.  
 
@@ -178,12 +180,7 @@ qpcr_tidy <- qpcr_untidy %>%
     names_sep="_",
     values_to= "mRNA expression"
   )
-```
-
-
-```{r}
-qpcr_tidy %>% 
-  separate(experiment, into=c("experiment, e_number"),sep=3)
+qpcr_tidy
 ```
 
 ```{r}
@@ -191,6 +188,12 @@ qpcr_tidy %>%
   separate(experiment, into=c("experiment", "e_number"),sep=3) %>% 
   separate(replicate, into=c("rep", "r_number"), sep=3) %>% 
   select(gene, experiment=e_number, replicate=r_number, 'mRNA expression')
+```
+```{r}
+qpcr_tidy %>% 
+  separate(experiment, into=c("experiment", "e_number"), sep=3) %>% 
+  separate(replicate, into=c("rep", "r_number"), sep=3) %>% 
+  select(gene, experiment=e_number, replicate=r_number, `mRNA expression`)
 ```
 
 ## That's it! Let's move on to part 2! 

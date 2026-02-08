@@ -38,19 +38,20 @@ sydney_beaches
 sydney_beaches <- sydney_beaches %>% 
   clean_names()
 ```
-Data is tidy: the sites are variables that each have their own observations so it is in a long format. 
+Data is tidy: the sites are variables that each have their own observations in their own rows so it is in a long format. 
 
 3. We are only interested in the variables site, date, and enterococci_cfu_100ml. Make a new object focused on these variables only. Name the object `sydneybeaches_long`
 ```{r}
-sydney_beaches %>% 
+sydneybeaches_long <- sydney_beaches %>% 
   select(site, date, enterococci_cfu_100ml)
+sydneybeaches_long
 ```
 
 4. Pivot the data such that the dates are column names and each beach only appears once (wide format). Name the object `sydneybeaches_wide`
 ```{r}
 sydneybeaches_wide <- sydneybeaches_long %>% 
   pivot_wider(names_from = "date",
-              values_from = "enterococci_cfu_100ml")
+              values_from = "enterococci_cfu_100ml") #now each date (a variable) has its own column, only appears once
 sydneybeaches_wide
 ```
 
@@ -64,31 +65,49 @@ sydneybeaches_wide %>%
 
 6. We haven't dealt much with dates yet, but separate the date into columns day, month, and year. Do this on the `sydneybeaches_long` data.
 ```{r}
-sydneybeaches_long
+sydneybeaches_long %>% 
+  separate(date, into=c("day", "month", "year"), sep="/") 
+  # filter(site=="Little Bay Beach", year=="2013") %>% 
+  # summarize(total=sum(enterococci_cfu_100ml, na.rm =T))
 ```
 
-7. What is the average `enterococci_cfu_100ml` by year for each beach. Think about which data you will use- long or wide.
+7. What is the average `enterococci_cfu_100ml` by year (use group by year) for each beach (use group by site). Think about which data you will use- long or wide. Use the long data cuz its easier to use when each observation is in its own row. 
 ```{r}
-
+sydneybeaches_long %>% 
+  group_by(site, date) %>% 
+  summarize(avg=mean(enterococci_cfu_100ml), na.rm=T)
 ```
 
 8. Make the output from question 7 easier to read by pivoting it to wide format.
 ```{r}
-
+sydneybeaches_long %>% 
+  group_by(site, date) %>% 
+  summarize(avg=mean(enterococci_cfu_100ml), na.rm=T) %>% 
+pivot_wider(
+  names_from = "date",
+  values_from = "avg"
+)
 ```
 
 9. What was the most polluted beach in 2013?
 ```{r}
-
+sydneybeaches_long %>% 
+  separate(date, into=c("day", "month", "year"), sep="/") %>% 
+  filter(year == 2013) %>%
+  group_by(site) %>%
+  summarize(total_cfu = sum(enterococci_cfu_100ml, na.rm = TRUE)) %>%
+  slice_max(order_by = total_cfu, n = 1)
 ```
 
-```{r}
-
-```
 
 10. Explore the data! Do one analysis of your choice that includes a minimum of three lines of code.  
 ```{r}
-
+#What is the mean for each council in 2013
+sydneybeaches_long %>% 
+  separate(date, into=c("day", "month", "year"), sep="/") %>% 
+  filter(year == 2013) %>%
+  group_by(site) %>% 
+  summarize(avg=mean(enterococci_cfu_100ml, na.rm=T))
 ```
 
 ## Knit and Upload
