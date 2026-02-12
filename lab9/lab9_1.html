@@ -10,7 +10,7 @@
 
 
 
-<meta name="date" content="2026-02-04" />
+<meta name="date" content="2026-02-07" />
 
 <title>Lab 9.1</title>
 
@@ -1503,7 +1503,7 @@ border-radius: 0px;
 
 
 <h1 class="title toc-ignore">Lab 9.1</h1>
-<h4 class="date">2026-02-04</h4>
+<h4 class="date">2026-02-07</h4>
 
 </div>
 
@@ -1619,15 +1619,95 @@ tidy.</p>
 while keeping track of column names and values. We do this using
 <code>pivot_longer()</code>. Notice that the dimensions of the data
 frame change.</p>
+<pre class="r"><code>heartrate_long &lt;- heartrate %&gt;% 
+  pivot_longer(-patient,
+               names_to= &quot;drug&quot;,
+               values_to= &quot;heartrate&quot;)
+heartrate_long</code></pre>
+<pre><code>## # A tibble: 24 × 3
+##    patient  drug  heartrate
+##    &lt;chr&gt;    &lt;chr&gt;     &lt;dbl&gt;
+##  1 Margaret a            72
+##  2 Margaret b            74
+##  3 Margaret c            80
+##  4 Margaret d            68
+##  5 Frank    a            84
+##  6 Frank    b            84
+##  7 Frank    c            88
+##  8 Frank    d            76
+##  9 Hawkeye  a            64
+## 10 Hawkeye  b            66
+## # ℹ 14 more rows</code></pre>
+<pre class="r"><code>heartrate_long %&gt;%
+  filter(patient==&quot;Margaret&quot;) %&gt;%
+  ggplot(aes(x=drug,y=heartrate))+
+  geom_col()</code></pre>
+<p><img role="img" aria-label src="data:image/png;base64,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" alt width="672" /></p>
 </div>
 <div id="practice" class="section level2">
 <h2>Practice</h2>
 <ol style="list-style-type: decimal">
-<li><p>Import the file <code>relig_income.csv</code> and store it as a
-new object <code>relig_income</code>.</p></li>
-<li><p>Why are these data untidy?</p></li>
+<li>Import the file <code>relig_income.csv</code> and store it as a new
+object <code>relig_income</code>.</li>
+</ol>
+<pre class="r"><code>relig_income &lt;- read_csv(&quot;data/relig_income.csv&quot;)</code></pre>
+<pre><code>## Rows: 18 Columns: 11
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr  (1): religion
+## dbl (10): &lt;$10k, $10-20k, $20-30k, $30-40k, $40-50k, $50-75k, $75-100k, $100...
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<pre class="r"><code>relig_income</code></pre>
+<pre><code>## # A tibble: 18 × 11
+##    religion `&lt;$10k` `$10-20k` `$20-30k` `$30-40k` `$40-50k` `$50-75k` `$75-100k`
+##    &lt;chr&gt;      &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;      &lt;dbl&gt;
+##  1 Agnostic      27        34        60        81        76       137        122
+##  2 Atheist       12        27        37        52        35        70         73
+##  3 Buddhist      27        21        30        34        33        58         62
+##  4 Catholic     418       617       732       670       638      1116        949
+##  5 Don’t k…      15        14        15        11        10        35         21
+##  6 Evangel…     575       869      1064       982       881      1486        949
+##  7 Hindu          1         9         7         9        11        34         47
+##  8 Histori…     228       244       236       238       197       223        131
+##  9 Jehovah…      20        27        24        24        21        30         15
+## 10 Jewish        19        19        25        25        30        95         69
+## 11 Mainlin…     289       495       619       655       651      1107        939
+## 12 Mormon        29        40        48        51        56       112         85
+## 13 Muslim         6         7         9        10         9        23         16
+## 14 Orthodox      13        17        23        32        32        47         38
+## 15 Other C…       9         7        11        13        13        14         18
+## 16 Other F…      20        33        40        46        49        63         46
+## 17 Other W…       5         2         3         4         2         7          3
+## 18 Unaffil…     217       299       374       365       341       528        407
+## # ℹ 3 more variables: `$100-150k` &lt;dbl&gt;, `&gt;150k` &lt;dbl&gt;,
+## #   `Don&#39;t know/refused` &lt;dbl&gt;</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li><p>Why are these data untidy?<br />
+variable names are data (the income)</p></li>
 <li><p>Use <code>pivot_longer()</code> to make the data tidy.</p></li>
 </ol>
+<pre class="r"><code>relig_income &lt;- relig_income %&gt;% 
+  pivot_longer(-religion,
+               names_to= &quot;income&quot;, #give new column name
+               values_to= &quot;total&quot;) #move the count into a new column
+relig_income</code></pre>
+<pre><code>## # A tibble: 180 × 3
+##    religion income             total
+##    &lt;chr&gt;    &lt;chr&gt;              &lt;dbl&gt;
+##  1 Agnostic &lt;$10k                 27
+##  2 Agnostic $10-20k               34
+##  3 Agnostic $20-30k               60
+##  4 Agnostic $30-40k               81
+##  5 Agnostic $40-50k               76
+##  6 Agnostic $50-75k              137
+##  7 Agnostic $75-100k             122
+##  8 Agnostic $100-150k            109
+##  9 Agnostic &gt;150k                 84
+## 10 Agnostic Don&#39;t know/refused    96
+## # ℹ 170 more rows</code></pre>
+<p>The income is in a character class.</p>
 </div>
 <div id="example-2-some-column-names-are-data" class="section level2">
 <h2>Example 2: some column names are data</h2>
@@ -1665,20 +1745,127 @@ NA’s.</p>
 ## #   wk25 &lt;dbl&gt;, wk26 &lt;dbl&gt;, wk27 &lt;dbl&gt;, wk28 &lt;dbl&gt;, wk29 &lt;dbl&gt;, wk30 &lt;dbl&gt;,
 ## #   wk31 &lt;dbl&gt;, wk32 &lt;dbl&gt;, wk33 &lt;dbl&gt;, wk34 &lt;dbl&gt;, wk35 &lt;dbl&gt;, wk36 &lt;dbl&gt;,
 ## #   wk37 &lt;dbl&gt;, wk38 &lt;dbl&gt;, wk39 &lt;dbl&gt;, wk40 &lt;dbl&gt;, wk41 &lt;dbl&gt;, wk42 &lt;dbl&gt;, …</code></pre>
+<p>Week is a variable, songs fall off the charts so they are NA, we want
+each song to have all weeks displayed in one row (one observation for
+each week in one row).</p>
 <p>Solution 1: specify a range of columns that you want to pivot.</p>
+<pre class="r"><code>billboard %&gt;% 
+  pivot_longer(wk1:wk76,
+               names_to=&quot;week&quot;,
+               values_to=&quot;rank&quot;,
+               values_drop_na=T)</code></pre>
+<pre><code>## # A tibble: 5,307 × 5
+##    artist  track                   date.entered week   rank
+##    &lt;chr&gt;   &lt;chr&gt;                   &lt;date&gt;       &lt;chr&gt; &lt;dbl&gt;
+##  1 2 Pac   Baby Don&#39;t Cry (Keep... 2000-02-26   wk1      87
+##  2 2 Pac   Baby Don&#39;t Cry (Keep... 2000-02-26   wk2      82
+##  3 2 Pac   Baby Don&#39;t Cry (Keep... 2000-02-26   wk3      72
+##  4 2 Pac   Baby Don&#39;t Cry (Keep... 2000-02-26   wk4      77
+##  5 2 Pac   Baby Don&#39;t Cry (Keep... 2000-02-26   wk5      87
+##  6 2 Pac   Baby Don&#39;t Cry (Keep... 2000-02-26   wk6      94
+##  7 2 Pac   Baby Don&#39;t Cry (Keep... 2000-02-26   wk7      99
+##  8 2Ge+her The Hardest Part Of ... 2000-09-02   wk1      91
+##  9 2Ge+her The Hardest Part Of ... 2000-09-02   wk2      87
+## 10 2Ge+her The Hardest Part Of ... 2000-09-02   wk3      92
+## # ℹ 5,297 more rows</code></pre>
 <p>Solution 2: OR, specify columns that you want to stay fixed.</p>
+<pre class="r"><code>billboard %&gt;% 
+  pivot_longer(-c(artist, track,date.entered),
+               names_to=&quot;week&quot;,
+               values_to=&quot;rank&quot;,
+               values_drop_na = T)</code></pre>
+<pre><code>## # A tibble: 5,307 × 5
+##    artist  track                   date.entered week   rank
+##    &lt;chr&gt;   &lt;chr&gt;                   &lt;date&gt;       &lt;chr&gt; &lt;dbl&gt;
+##  1 2 Pac   Baby Don&#39;t Cry (Keep... 2000-02-26   wk1      87
+##  2 2 Pac   Baby Don&#39;t Cry (Keep... 2000-02-26   wk2      82
+##  3 2 Pac   Baby Don&#39;t Cry (Keep... 2000-02-26   wk3      72
+##  4 2 Pac   Baby Don&#39;t Cry (Keep... 2000-02-26   wk4      77
+##  5 2 Pac   Baby Don&#39;t Cry (Keep... 2000-02-26   wk5      87
+##  6 2 Pac   Baby Don&#39;t Cry (Keep... 2000-02-26   wk6      94
+##  7 2 Pac   Baby Don&#39;t Cry (Keep... 2000-02-26   wk7      99
+##  8 2Ge+her The Hardest Part Of ... 2000-09-02   wk1      91
+##  9 2Ge+her The Hardest Part Of ... 2000-09-02   wk2      87
+## 10 2Ge+her The Hardest Part Of ... 2000-09-02   wk3      92
+## # ℹ 5,297 more rows</code></pre>
 <p>Solution 3: identify columns by a prefix, remove the prefix and all
 NA’s.</p>
+<pre class="r"><code>billboard %&gt;% 
+  pivot_longer(
+    cols=starts_with(&quot;wk&quot;),
+    names_to= &quot;week&quot;,
+    names_prefix = &quot;wk&quot;, #gets rid of the wk
+    values_to= &quot;rank&quot;,
+    values_drop_na = T
+  )</code></pre>
+<pre><code>## # A tibble: 5,307 × 5
+##    artist  track                   date.entered week   rank
+##    &lt;chr&gt;   &lt;chr&gt;                   &lt;date&gt;       &lt;chr&gt; &lt;dbl&gt;
+##  1 2 Pac   Baby Don&#39;t Cry (Keep... 2000-02-26   1        87
+##  2 2 Pac   Baby Don&#39;t Cry (Keep... 2000-02-26   2        82
+##  3 2 Pac   Baby Don&#39;t Cry (Keep... 2000-02-26   3        72
+##  4 2 Pac   Baby Don&#39;t Cry (Keep... 2000-02-26   4        77
+##  5 2 Pac   Baby Don&#39;t Cry (Keep... 2000-02-26   5        87
+##  6 2 Pac   Baby Don&#39;t Cry (Keep... 2000-02-26   6        94
+##  7 2 Pac   Baby Don&#39;t Cry (Keep... 2000-02-26   7        99
+##  8 2Ge+her The Hardest Part Of ... 2000-09-02   1        91
+##  9 2Ge+her The Hardest Part Of ... 2000-09-02   2        87
+## 10 2Ge+her The Hardest Part Of ... 2000-09-02   3        92
+## # ℹ 5,297 more rows</code></pre>
 </div>
 <div id="practice-1" class="section level2">
 <h2>Practice</h2>
 <ol style="list-style-type: decimal">
-<li><p>Import <code>plant_data.csv</code> as a new object
-<code>plant_data</code>.</p></li>
-<li><p>Why are these data not tidy?</p></li>
+<li>Import <code>plant_data.csv</code> as a new object
+<code>plant_data</code>.</li>
+</ol>
+<pre class="r"><code>plant_data &lt;- read_csv(&quot;data/plant_data.csv&quot;)</code></pre>
+<pre><code>## Rows: 3 Columns: 33
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr  (3): genotype, water_sched_prog, greenhouse
+## dbl (30): day1, day2, day3, day4, day5, day6, day7, day8, day9, day10, day11...
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<pre class="r"><code>plant_data</code></pre>
+<pre><code>## # A tibble: 3 × 33
+##   genotype water_sched_prog greenhouse  day1  day2  day3  day4  day5  day6  day7
+##   &lt;chr&gt;    &lt;chr&gt;            &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 control  A                A761        21.7  19.9  20.7  19.4  20.2  19.2  20.6
+## 2 mutant1  A                A761        24.3  24.9  25.2  25.3  27.4  25.5  25.4
+## 3 mutant2  A                A761        20.7  21.3  21.3  22.5  19.8  21.4  21.9
+## # ℹ 23 more variables: day8 &lt;dbl&gt;, day9 &lt;dbl&gt;, day10 &lt;dbl&gt;, day11 &lt;dbl&gt;,
+## #   day12 &lt;dbl&gt;, day13 &lt;dbl&gt;, day14 &lt;dbl&gt;, day15 &lt;dbl&gt;, day16 &lt;dbl&gt;,
+## #   day17 &lt;dbl&gt;, day18 &lt;dbl&gt;, day19 &lt;dbl&gt;, day20 &lt;dbl&gt;, day21 &lt;dbl&gt;,
+## #   day22 &lt;dbl&gt;, day23 &lt;dbl&gt;, day24 &lt;dbl&gt;, day25 &lt;dbl&gt;, day26 &lt;dbl&gt;,
+## #   day27 &lt;dbl&gt;, day28 &lt;dbl&gt;, day29 &lt;dbl&gt;, day30 &lt;dbl&gt;</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li><p>Why are these data not tidy?<br />
+We want each day’s observations to be in its own row. (make the entire
+data frame longer)</p></li>
 <li><p>Use <code>pivot_longer()</code> to make the data tidy. Focus the
 data only on genotype, water_sched_prog, and greenhouse.</p></li>
 </ol>
+<pre class="r"><code>plant_data %&gt;%
+  pivot_longer(-c(genotype, water_sched_prog,greenhouse),
+               names_to= &quot;v1&quot;,
+               values_to= &quot;v2&quot;,
+               values_drop_na = T)</code></pre>
+<pre><code>## # A tibble: 90 × 5
+##    genotype water_sched_prog greenhouse v1       v2
+##    &lt;chr&gt;    &lt;chr&gt;            &lt;chr&gt;      &lt;chr&gt; &lt;dbl&gt;
+##  1 control  A                A761       day1   21.7
+##  2 control  A                A761       day2   19.9
+##  3 control  A                A761       day3   20.7
+##  4 control  A                A761       day4   19.4
+##  5 control  A                A761       day5   20.2
+##  6 control  A                A761       day6   19.2
+##  7 control  A                A761       day7   20.6
+##  8 control  A                A761       day8   19.9
+##  9 control  A                A761       day9   19.2
+## 10 control  A                A761       day10  20.4
+## # ℹ 80 more rows</code></pre>
 </div>
 <div id="example-3-more-than-one-variable-in-a-column-name" class="section level2">
 <h2>Example 3: more than one variable in a column name</h2>
@@ -1704,6 +1891,64 @@ data only on genotype, water_sched_prog, and greenhouse.</p></li>
 ## # ℹ 2 more variables: exp3_rep2 &lt;dbl&gt;, exp3_rep3 &lt;dbl&gt;</code></pre>
 <p><code>names_sep</code> helps pull these apart, but we still have
 “exp” and “rep” to deal with.</p>
+<pre class="r"><code>qpcr_tidy &lt;- qpcr_untidy %&gt;% 
+  pivot_longer(
+    exp1_rep1:exp3_rep3,
+    names_to=c(&quot;experiment&quot;,&quot;replicate&quot;),
+    names_sep=&quot;_&quot;,
+    values_to= &quot;mRNA expression&quot;
+  )
+qpcr_tidy</code></pre>
+<pre><code>## # A tibble: 45 × 4
+##    gene  experiment replicate `mRNA expression`
+##    &lt;chr&gt; &lt;chr&gt;      &lt;chr&gt;                 &lt;dbl&gt;
+##  1 A     exp1       rep1                   21.7
+##  2 A     exp1       rep2                   19.8
+##  3 A     exp1       rep3                   20.7
+##  4 A     exp2       rep1                   18.3
+##  5 A     exp2       rep2                   20.4
+##  6 A     exp2       rep3                   17.6
+##  7 A     exp3       rep1                   20.6
+##  8 A     exp3       rep2                   19.9
+##  9 A     exp3       rep3                   19.2
+## 10 B     exp1       rep1                   24.3
+## # ℹ 35 more rows</code></pre>
+<pre class="r"><code>qpcr_tidy %&gt;% 
+  separate(experiment, into=c(&quot;experiment&quot;, &quot;e_number&quot;),sep=3) %&gt;% 
+  separate(replicate, into=c(&quot;rep&quot;, &quot;r_number&quot;), sep=3) %&gt;% 
+  select(gene, experiment=e_number, replicate=r_number, &#39;mRNA expression&#39;)</code></pre>
+<pre><code>## # A tibble: 45 × 4
+##    gene  experiment replicate `mRNA expression`
+##    &lt;chr&gt; &lt;chr&gt;      &lt;chr&gt;                 &lt;dbl&gt;
+##  1 A     1          1                      21.7
+##  2 A     1          2                      19.8
+##  3 A     1          3                      20.7
+##  4 A     2          1                      18.3
+##  5 A     2          2                      20.4
+##  6 A     2          3                      17.6
+##  7 A     3          1                      20.6
+##  8 A     3          2                      19.9
+##  9 A     3          3                      19.2
+## 10 B     1          1                      24.3
+## # ℹ 35 more rows</code></pre>
+<pre class="r"><code>qpcr_tidy %&gt;% 
+  separate(experiment, into=c(&quot;experiment&quot;, &quot;e_number&quot;), sep=3) %&gt;% 
+  separate(replicate, into=c(&quot;rep&quot;, &quot;r_number&quot;), sep=3) %&gt;% 
+  select(gene, experiment=e_number, replicate=r_number, `mRNA expression`)</code></pre>
+<pre><code>## # A tibble: 45 × 4
+##    gene  experiment replicate `mRNA expression`
+##    &lt;chr&gt; &lt;chr&gt;      &lt;chr&gt;                 &lt;dbl&gt;
+##  1 A     1          1                      21.7
+##  2 A     1          2                      19.8
+##  3 A     1          3                      20.7
+##  4 A     2          1                      18.3
+##  5 A     2          2                      20.4
+##  6 A     2          3                      17.6
+##  7 A     3          1                      20.6
+##  8 A     3          2                      19.9
+##  9 A     3          3                      19.2
+## 10 B     1          1                      24.3
+## # ℹ 35 more rows</code></pre>
 </div>
 <div id="thats-it-lets-move-on-to-part-2" class="section level2">
 <h2>That’s it! Let’s move on to part 2!</h2>
