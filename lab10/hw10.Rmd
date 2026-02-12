@@ -45,7 +45,7 @@ sharks %>%
 ```{r}
 sharks %>% 
   group_by(county) %>% 
-  summarize(total_incidents=sum(incident_num)) %>% 
+  summarize(total_incidents=sum(incident_num, na.rm=T)) %>% 
   ggplot(aes(x=county, y=total_incidents))+
   geom_col()+
   coord_flip()
@@ -55,7 +55,7 @@ sharks %>%
 ```{r}
 sharks %>% 
   group_by(month) %>% 
-  summarize(total_incidents_month=sum(incident_num)) %>% 
+  summarize(total_incidents_month=sum(incident_num, na.rm=T)) %>% 
   ggplot(aes(x=as.factor(month), y=total_incidents_month))+
   geom_col()+
   coord_flip()+
@@ -79,7 +79,11 @@ sharks %>%
 5. How do the number and types of injuries compare by county? Make a table that shows the number of injury types by county. Which county has the highest number incidents? (hint: your table should be in wide format)
 ```{r}
 sharks %>% 
-  select(injury, county, )
+  pivot_wider(-county, 
+              mutate()
+              names_from="injury", 
+              values_from="county"
+              )
 ```
 
 6. Use the table from #5 to make a plot that shows the total number of incidents by county.
