@@ -133,39 +133,52 @@ Singapore, Ireland, Luxembourg, Guyana, and Norway had the highest absolute GDP 
 
 9. How does per capita GDP growth compare between these same five countries over the past 50 years? Show this as a plot.
 ```{r}
-top_countries <- gapminder %>% 
-  filter(year %in% c(1975, 2025), country!="Monaco") %>%
-  select(country, year, gdp) %>%         
-  pivot_wider(names_from = year,
-              values_from = gdp) %>%
+greatest <- gapminder %>%
+  filter(year %in% c(1975, 2025), country != "Monaco") %>%
+  select(country, year, gdp) %>%
+  pivot_wider(names_from = year, values_from = gdp) %>%
   drop_na(`1975`, `2025`) %>%
   mutate(growth = `2025` - `1975`) %>%
   arrange(desc(growth)) %>%
   slice_head(n = 5)
-top_countries
+
+greatest
 ```
+
 ```{r}
-growth_top <- gapminder %>% 
-  filter(year %in% c(1975, 2025), 
-         country %in% top_countries) %>% 
-  select(country, year, gdp) %>% 
-  pivot_wider(names_from = year, 
-              values_from = gdp) %>% 
-  drop_na(`1975`,`2025`) %>% 
-  mutate(growth=`2025`-`1975`) 
-  # ggplot(top_countries, aes(x = reorder(country, growth), y = growth)) +
-  # geom_col() +
-  # coord_flip()
-  
+gapminder %>%
+  filter(country %in% greatest$country, 
+         year %in% c(1975, 2025)) %>%
+  ggplot(aes(x = year, y = gdp, fill = country)) +
+  geom_col(position="dodge") +
+  labs(
+    title = "GDP per Capita Growth (1975 vs 2025)",
+    x = "Year",
+    y = "GDP per Capita",
+    fill = "Country"
+  ) 
 ```
 
 10. Do one analysis of your choice that includes a table and plot as outputs.
 ```{r}
-
+gapminder %>% 
+  filter(year %in% c(1975,2025)) %>% 
+  select(country, year, pop) %>% 
+  pivot_wider(names_from = year,
+              values_from = pop) %>% 
+  drop_na(`1975`,`2025`) %>% 
+  mutate(growth = `2025`-`1975`) %>% 
+  arrange(desc(growth)) %>% 
+  slice_head(n=1)
 ```
 
 ```{r}
-
+gapminder %>% 
+  filter(country=="India") %>% 
+  ggplot(aes(x=year, y=pop))+
+  geom_point()+
+  labs(title="Population Growth of India, 1925-2025")
+  
 ```
 
 ## Knit and Upload
