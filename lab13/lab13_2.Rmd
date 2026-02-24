@@ -150,7 +150,7 @@ spiders_with_locs <- spiders_with_locs %>%
 
 4. Save your final data to a `.csv`.
 ```{r}
-#write.csv(spiders_with_locs, file="spiders_with_locs.csv", row.names = )
+write.csv(spiders_with_locs, file="spiders_with_locs.csv", row.names =F)
 ```
 
 ## That's it, let's take a break!   
