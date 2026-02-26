@@ -48,7 +48,7 @@ Because some of these maps are proprietary, you will need an API key to use them
 
 Start by making an account with [Stadia Maps](https://client.stadiamaps.com/signup/). You need to add a "property" which is just a name for your project. Once you have an account, you can get an API key. Use the following code to register your key.  
 ```{r}
-register_stadiamaps("ece99a72-2ade-4e51-85ff-001ee7169fb5", write = FALSE)
+register_stadiamaps("API KEY HERE", write = FALSE)
 ```
 
 ## Load the Data
