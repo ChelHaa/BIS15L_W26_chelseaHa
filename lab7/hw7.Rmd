@@ -139,6 +139,15 @@ ggplot(data=elephants,
       labs(title="Tusk Length In 1966-68 and 2005-13")
 ```
 
+
+
+```{r}
+elephants %>% 
+  group_by(years_of_sample_collection, sex) %>% 
+  summarize(mean_tusk_length = mean(tusk_length_in_cm, na.rm = TRUE)) %>% 
+  arrange(sex)
+```
+
 **12. Male elephants reach effective sexual maturity at 25 years while females are sexually mature at 12 years. Make a new dataframe that extracts only the males and females at sexual maturity. Then, make a plot that shows the range of tusk length between the two sample periods for these mature elephants.**   
 ```{r}
 elephants_mature <- elephants %>% 

@@ -61,12 +61,19 @@ fisheries_clean %>%
 ```
 249 countries.
 
+##fisheries_clean %>% 
+  summarize(n_countries = n_distinct(country))
+  
+  
 5. The variables `common_name` and `taxonomic_code` both refer to species. How many unique species are represented in the data based on each of these variables? Are the numbers the same or different?
 ```{r}
 fisheries_clean %>% 
   select(common_name, taxonomic_code) %>% 
   n_distinct()
 ```
+##fisheries_clean%>% 
+  summarize(common_name = n_distinct(common_name),
+            taxonomic_codes = n_distinct(taxonomic_code))
 
 6. In 2023, what were the top five countries that had the highest overall catch?
 ```{r}
@@ -119,6 +126,16 @@ fisheries_clean %>%
   labs(title="Fishing of Alaska pollock(=Walleye poll.) from 2013-2023")
 ```
 
+
+
+#fisheries_clean %>% 
+  filter((period %in% 2013:2023), common_name == "Alaska pollock(=Walleye poll.)") %>% 
+  group_by(period) %>%
+  summarize(catch_total = sum(catch, na.rm = T)) %>% 
+  ggplot(aes(x = period, y = catch_total)) +
+  geom_col()
+  
+  
 10. Perform one exploratory analysis of your choice. Make sure to clearly state the question you are asking before writing any code.
 ```{r}
 #Which continent caught the most fish in 2023 and make a plot of how fishing has changed over the past decade for that continent. 

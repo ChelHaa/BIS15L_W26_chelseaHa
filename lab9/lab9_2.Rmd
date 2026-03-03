@@ -62,6 +62,14 @@ expenditures %>%
                values_to= "amount in billions of dollars")
 ```
 
+
+##expenditures %>% 
+  pivot_longer(-expenditure,
+               names_to = "year",
+               values_to = "bn_dollars") %>% 
+  filter(expenditure=="Medical and Health") %>% 
+  arrange(bn_dollars)
+  
 ## `separate()`
 In this new heart rate example, we have the sex of each patient included with their name. Are these data tidy? No, there is more than one value per cell in the patient column and the columns a, b, c, d once again represent values.
 ```{r}

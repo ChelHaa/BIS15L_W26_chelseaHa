@@ -1,0 +1,82 @@
+---
+title: "cheatsheet"
+output: html_document
+---
+##Cheat Sheet Contains Information from Lab 6-Lab 15
+
+continuous varibales: use scatter plot 
+categorical variables: use bar plot
+- use facet_wrap() to create multiple plots based on a categorical variable
+
+
+
+
+##Lab 6:  
+Functions:
+- distinct(): find unique observations in rows (sees if there are multiple rows)
+- mutate(): create new variables as columns 
+- mutate() WITH across() and where() to transform multiple columns that meet specific criteria
+    ex: penguins %>% 
+          mutate(across(ends_with("mm"), ~./10)) %>% 
+
+# ~ means "use this function" > replaced existing columns with "mm" converting them to cm (doesn't change the names)
+#What does the `~./10` mean? The `~` indicates that what follows is a formula (lambda function). 
+#The `.` represents the current column being processed. So, `./10` means "take the current column and divide it by 10". This operation is applied to all columns that end with `mm`.
+
+  select(species,
+         bill_length_cm=bill_length_mm,
+         bill_depth_cm=bill_depth_mm,
+         flipper_length_cm=flipper_length_mm)
+         
+         
+- group_by() and summarise(): to calculate summary statistics for groups of data
+- use if_else() to conditionally chanae values in a column
+- %in% operator to filter data based on multiple values in a column
+      ex: penguins%>% filter(species %in% c("Adelie", "Chinstrap"))
+
+#HW 6:
+#uses mutate to change the variables to factors
+- gabon <- gabon %>%
+  mutate(across(c(hunt_cat, land_use, transect_id), as.factor)) 
+#uses $ to show the number of transects for each land use type
+- table(gabon$land_use)
+# For which land use type (national parks, logging, or neither) is average all species diversity the greatest?**
+
+gabon %>% filter(land_use=="park") -> parks
+gabon %>% filter(land_use=="logging") -> logging
+gabon %>% filter(land_use=="neither") -> neither
+mean(parks$diversity_all_species)
+mean(logging$diversity_all_species)
+mean(neither$diversity_all_species)
+
+
+##Lab 7:
+Functions:
+- summarize(): to calculate summary statistics for a data frame
+- count(): to count the number of occurrences of a specific value in a column
+
+
+
+
+##Lab 9:
+Rules:  
++ `pivot_longer`(cols, names_to, values_to)
++ `cols` - Columns to pivot to longer format
++ `names_to` - Name of the new column; it will contain the column names of gathered columns as values
++ `values_to` - Name of the new column; it will contain the data stored in the values of gathered columns
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
