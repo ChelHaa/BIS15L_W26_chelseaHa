@@ -140,12 +140,12 @@ fasting
 
 8. (6 points) The authors found that the number of fasting bears increased in the SB population but decreased in the CS population. Make a plot(s) that shows the number of fasting bears by year for both populations to visualize this trend.
 ```{r}
-fasting %>% 
-  group_by(popn, year) %>% 
-  filter(fasting=="fasting") %>% 
-  count(fasting)
-  ggplot(aes(x=year, y=n()))+
-  geom_col()
+# fasting %>% 
+#   group_by(popn, year) %>% 
+#   filter(fasting=="fasting") %>% 
+#   count(fasting)
+#   ggplot(aes(x=year, y=n()))+
+#   geom_col()
 ```
 
 ```{r}
