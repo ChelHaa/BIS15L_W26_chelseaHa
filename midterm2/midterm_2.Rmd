@@ -103,9 +103,9 @@ polar_bears_years <-  polar_bears %>%
 ```{r}
 # polar_bears_years %>%
 #   group_by(year) %>%
-#   count(popn) %>% 
+#   count(popn) %>%
 #   ggplot(aes(x=popn, y=n))+
-#   geom_point(color=year,na.rm=T)+
+#   geom_point(na.rm=T)+
 #   geom_smooth(method=lm, se=F)
 ```
 
