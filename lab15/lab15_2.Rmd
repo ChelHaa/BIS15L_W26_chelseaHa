@@ -137,7 +137,7 @@ ui <- dashboardPage(
               choices=sort(unique(gestation$order)),
               selected="Afrosoricida"),
   
-  selectInput("y",
+    selectInput("y",
               "Select Variable",
               choices=c("bodymass", "longevity", "gestationlength"),
               selected="gestationlength"),
@@ -217,11 +217,11 @@ ui <- dashboardPage(
               "Select Variable",
               choices=c("bodymass", "longevity", "gestationlength"),
               selected="gestationlength")
-),
+  ),
 
-  dashboardBody(
+    dashboardBody(
     plotOutput("plot", width="600px", height="500px")
-  )
+    )
 
 
 )
