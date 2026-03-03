@@ -69,7 +69,56 @@ Rules:
 
 
 
+## Visualization with ggplot2 (Labs 9-12)
+Lab 9: Basics
 
+ggplot(data, aes(x, y)) + geom_point() (scatter) or geom_line().
+
+Lab 10: Distributions
+
+geom_bar() (counts rows), geom_col() (uses specific y-value), geom_histogram() (binned continuous data).
+
+Lab 11: Comparison & Style
+
+geom_boxplot(), labs(title=, x=, y=), theme() (adjusting text/angles), fill= vs color=.
+
+Lab 12: Advanced Layouts
+
+facet_wrap(~variable) (wrapped grid), facet_grid(y~x) (matrix grid), scaling within facets.
+
+## Apps and AI (Labs 13-15)
+Lab 13: Shiny Basics
+
+ui <- fluidPage(), server <- function(input, output), shinyApp(ui, server).
+
+Inputs: selectInput(), sliderInput(), radioButtons().
+
+Lab 14: Reactive Shiny
+
+renderPlot(), plotOutput(), reactive({}) (for creating filtered dataframes that update based on user input).
+
+Lab 15: AI & Projects
+
+Prompt engineering for R (using AI to debug errors), final project organization, and README.md structure.
+
+💡 Quick Tips for the Exam:
+The Pipe (%>% or |>): Remember that the output of one function becomes the first argument of the next.
+
+Aesthetics: aes() is for mapping variables to the plot; anything constant (like color = "blue") goes outside aes().
+
+NAs: If your mean returns NA, you forgot na.rm = TRUE.
+
+    Lab,Primary Goal,Key Functions to Know
+Lab 6,Summarizing,"group_by(), summarize(), n(), count(), mean(na.rm=T), sum(), median()"
+Lab 7,Reshaping,"pivot_longer(), pivot_wider(), separate(), unite()"
+Lab 8,NAs,"is.na(), n_miss(), miss_var_summary(), replace_with_na(), na.omit()"
+Lab 9,GGPlot 1,"ggplot(aes(x, y)), geom_point(), geom_line(), geom_smooth()"
+Lab 10,GGPlot 2,"geom_bar() (counts), geom_col() (values), geom_histogram(), fill="
+Lab 11,GGPlot 3,"geom_boxplot(), labs(title=, x=, y=), theme_minimal(), theme(axis.text.x=)"
+Lab 12,Faceting,"facet_wrap(~var), facet_grid(row~col), scales = ""free"""
+Lab 13,Shiny UI,"fluidPage(), selectInput(), plotOutput(), numericInput()"
+Lab 14,Shiny Server,"renderPlot(), reactive({}), input$ID, session"
+Lab 15,AI/Workflows,"names(), glimpse(), summary(), str()   
 
 
 
