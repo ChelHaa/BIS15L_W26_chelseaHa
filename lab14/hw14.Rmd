@@ -43,12 +43,20 @@ summary(sharks)
 map1 <- get_stadiamap(bbox = c(left = -125, bottom = 32, right = -114, top = 42), zoom = 6, maptype = "stamen_terrain")
 ```
 
+- sharks_dups <- sharks %>% 
+  distinct(location, .keep_all = TRUE) # remove duplicate locations, but keep the remaining variables
+- sharks_dups %>% 
+  select(longitude, latitude) %>% 
+  summary()  
+- lat <- c(32.59, 41.56)
+long <- c(-117.1, -124.7)
+bbox2 <- make_bbox(long, lat, f=0.3)
 
 2. Load a map from `stamen` in a terrain style projection and display the map.  
 ```{r}
 ggmap(map1)
 ```
-
+map2 <- get_stadiamap(bbox2, maptype = "stamen_terrain", zoom=7)
 
 3. Build a map that overlays the recorded observations of shark attacks in California.
 ```{r}
@@ -85,6 +93,39 @@ leaflet(sharks %>% filter(injury == "fatal")) %>%
 
   fitBounds(lng1=-125, lat1=32, lng2=-114, lat2=42)
 ```
+#Answer to question 5
+sharks_fatal %>%
+  summarize(
+    lon_min = min(longitude, na.rm = TRUE),
+    lon_max = max(longitude, na.rm = TRUE),
+    lat_min = min(latitude,  na.rm = TRUE),
+    lat_max = max(latitude,  na.rm = TRUE))
+
+
+
+lon_min <- -123.7783		
+lon_max <- -117.28	
+lat_min <- 32.855		
+lat_max <- 39.57833	
+
+
+
+leaflet(sharks_fatal) %>%
+  addProviderTiles(providers$Stadia.StamenTerrain) %>%
+  addCircleMarkers(
+    lng = ~longitude, #use the longitude column for x-coordinates
+    lat = ~latitude, #use the latitude column for y-coordinates
+    radius = 2, #set marker size (in pixels)
+    stroke = FALSE, #remove the outline around each marker
+    fillColor="red", #set the fill color of the markers
+    fillOpacity = 1 #set the fill opacity of the markers
+  ) %>%
+  addScaleBar(position = "bottomleft") %>% # add a scale bar to the map
+  fitBounds(lng1 = lon_min, lat1 = lat_min, #southwest corner of bounding box
+            lng2 = lon_max, lat2 = lat_max) #northeast corner of bounding box
+
+
+
 
 
 6. Which county has the highest number of recorded shark attacks? Make a map that only shows the attacks in this county. (hint: it may help improve the map if you remove duplicate locations, i.e. multiple attacks at the same location.)
@@ -94,6 +135,7 @@ sharks %>%
   summarise(count = n()) %>%
   arrange(desc(count))
 ```
+
 ```{r}
 ggmap(map1)+
   geom_point(data = sharks %>% filter(county == "San Diego") %>% distinct(longitude, latitude), 
